@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双人火柴人打羽毛球游戏</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #game-container {
+            width: 800px;
+            height: 400px;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player {
+            width: 20px;
+            background-color: #000;
+            position: absolute;
+            top: 160px;
+        }
+
+        #player1 {
+            left: 20px;
+            height: 200px; /* 将左边玩家的高度从 80px 增加到 120px */
+        }
+
+        #player2 {
+            right: 20px;
+            height: 200px;
+        }
+
+        #shuttlecock {
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+            position: absolute;
+            top: 195px;
+            left: 395px;
+        }
+
+        #start-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="player1" class="player"></div>
+        <div id="player2" class="player"></div>
+        <div id="shuttlecock" class="shuttlecock"></div>
+    </div>
+    <button id="start-button">开始游戏</button>
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const player1 = document.getElementById('player1');
+        const player2 = document.getElementById('player2');
+        const shuttlecock = document.getElementById('shuttlecock');
+        const startButton = document.getElementById('start-button');
+
+        let player1Y = 160;
+        let player2Y = 160;
+        let shuttlecockX = 395;
+        let shuttlecockY = 195;
+        let shuttlecockSpeedX = 3;
+        let shuttlecockSpeedY = 2;
+        let speedIncrement = 0; // 速度增加量
+        let gameInterval;
+        let gameStarted = false;
+
+        // 记录按键状态
+        let keys = {
+            w: false,
+            s: false,
+            ArrowUp: false,
+            ArrowDown: false
+        };
+
+        document.addEventListener('keydown', function (event) {
+            if (gameStarted) {
+                keys[event.key] = true;
+            }
+        });
+
+        document.addEventListener('keyup', function (event) {
+            keys[event.key] = false;
+        });
+
+        function movePlayers() {
+            const moveStep = 20; // 增加每次移动的步长
+
+            if (keys.w && player1Y > 0) {
+                player1Y -= moveStep;
+                player1.style.top = player1Y + 'px';
+            } else if (keys.s && player1Y < gameContainer.offsetHeight - player1.offsetHeight) {
+                player1Y += moveStep;
+                player1.style.top = player1Y + 'px';
+            }
+
+            if (keys.ArrowUp && player2Y > 0) {
+                player2Y -= moveStep;
+                player2.style.top = player2Y + 'px';
+            } else if (keys.ArrowDown && player2Y < gameContainer.offsetHeight - player2.offsetHeight) {
+                player2Y += moveStep;
+                player2.style.top = player2Y + 'px';
+            }
+        }
+
+        function moveShuttlecock() {
+            shuttlecockX += shuttlecockSpeedX;
+            shuttlecockY += shuttlecockSpeedY;
+
+            if (shuttlecockY <= 0 || shuttlecockY >= gameContainer.offsetHeight - shuttlecock.offsetHeight) {
+                shuttlecockSpeedY = -shuttlecockSpeedY;
+            }
+
+            if (
+                (shuttlecockX <= player1.offsetLeft + player1.offsetWidth &&
+                    shuttlecockY >= player1Y &&
+                    shuttlecockY <= player1Y + player1.offsetHeight) ||
+                (shuttlecockX >= player2.offsetLeft &&
+                    shuttlecockY >= player2Y &&
+                    shuttlecockY <= player2Y + player2.offsetHeight)
+            ) {
+                shuttlecockSpeedX = -shuttlecockSpeedX;
+                speedIncrement += 60; // 每次碰到球拍，速度增加
+                // 累加速度增加量到当前速度上
+                if (shuttlecockSpeedX > 0) {
+                    shuttlecockSpeedX += speedIncrement;
+                } else {
+                    shuttlecockSpeedX -= speedIncrement;
+                }
+
+                if (shuttlecockSpeedY > 0) {
+                    shuttlecockSpeedY += speedIncrement;
+                } else {
+                    shuttlecockSpeedY -= speedIncrement;
+                }
+            }
+
+            if (shuttlecockX < 0 || shuttlecockX > gameContainer.offsetWidth) {
+                clearInterval(gameInterval);
+                alert('游戏结束');
+                gameStarted = false;
+                startButton.disabled = false;
+                // 可以在这里添加重置游戏的逻辑
+            }
+
+            shuttlecock.style.left = shuttlecockX + 'px';
+            shuttlecock.style.top = shuttlecockY + 'px';
+        }
+
+        startButton.addEventListener('click', function () {
+            if (!gameStarted) {
+                gameStarted = true;
+                startButton.disabled = true;
+                gameInterval = setInterval(() => {
+                    movePlayers();
+                    moveShuttlecock();
+                }, 20);
+            }
+        });
+    </script>
+</body>
+
+</html>
+    

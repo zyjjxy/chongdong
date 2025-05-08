@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wormhole - 关于我们</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .bg-hero {
+            background-image: url('https://picsum.photos/1920/1080');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(228, 215, 215, 0.5);
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">Wormhole</a>
+            <ul class="flex space-x-4">
+                <li><a href="wormhole.html" class="hover:text-gray-300">首页</a></li>
+                <li><a href="wormhole_tattoo.html" class="hover:text-gray-300">纹身专区</a></li>
+                <li><a href="wormhole_pet.html" class="hover:text-gray-300">宠物专区</a></li>
+                <li><a href="#" class="hover:text-gray-300">关于我们</a></li>
+                <li><a href="wormhole_call_me.html" class="hover:text-gray-300">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 关于我们页面内容 -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">关于 Wormhole</h2>
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <img src="https://picsum.photos/600/400" alt="Wormhole团队" class="w-full h-auto rounded-md shadow-md">
+            </div>
+            <div class="md:w-1/2">
+                <p class="text-lg text-gray-700 mb-4">
+                    在 Wormhole，我们是一群对纹身艺术和宠物关爱充满激情的人。我们的使命是将这两个看似不同的领域融合在一起，创造出独一无二的体验。我们相信，纹身不仅是一种身体上的装饰，更是一种表达个性和情感的方式；而宠物则是我们生活中不可或缺的伙伴，它们给予我们无尽的爱和陪伴。
+                </p>
+                <p class="text-lg text-gray-700 mb-4">
+                    我们的团队由专业的纹身师、宠物护理专家和数字技术爱好者组成。我们的纹身师拥有丰富的经验和独特的创意，能够根据客户的需求和个性设计出令人惊叹的纹身作品。我们的宠物护理专家则致力于为宠物提供最好的护理和关爱，确保它们健康快乐地成长。
+                </p>
+                <p class="text-lg text-gray-700">
+                    我们的愿景是“数字跨境，智达全球”。通过数字技术，我们打破了地域的限制，让更多的人能够享受到我们的服务。无论你身在何处，只要你有网络，就可以与我们联系，探索纹身与宠物世界的无限可能。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section class="bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">我们的团队</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <img src="https://picsum.photos/200/200?random=3" alt="纹身师" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-center mb-2">专业纹身师</h3>
+                    <p class="text-gray-700 text-center">拥有多年纹身经验，擅长各种风格的纹身设计。</p>
+                </div>
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <img src="https://picsum.photos/200/200?random=4" alt="宠物护理专家" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-center mb-2">宠物护理专家</h3>
+                    <p class="text-gray-700 text-center">热爱宠物，致力于提供优质的宠物护理服务。</p>
+                </div>
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <img src="https://picsum.photos/200/200?random=5" alt="数字技术专家" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
+                    <h3 class="text-xl font-bold text-center mb-2">数字技术专家</h3>
+                    <p class="text-gray-700 text-center">精通数字技术，助力我们实现数字跨境的愿景。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 Wormhole. 保留所有权利。</p>
+    </footer>
+</body>
+
+</html>    

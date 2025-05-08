@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双人坦克大战</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="gameCanvas" width="1200" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const screenWidth = 1200;
+        const screenHeight = 800;
+
+        const WHITE = '#ffffff';
+        const BLACK = '#000000';
+        const BLUE = '#0000ff';
+        const RED = '#ff0000';
+        const GRAY = '#808080';
+        const GREEN = '#00ff00';
+        const PURPLE = '#800080';
+        const YELLOW = '#ffff00';
+
+        class Player {
+            constructor(x, y, color, keys) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.speed = 5;
+                this.hp = 100;
+                this.keys = keys;
+                this.width = 30;
+                this.height = 30;
+                this.direction = 'up';
+                this.isShooting = false;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+
+            move(keyState, walls) {
+                let newX = this.x;
+                let newY = this.y;
+                if (keyState[this.keys.up]) {
+                    newY -= this.speed;
+                    this.direction = 'up';
+                }
+                if (keyState[this.keys.down]) {
+                    newY += this.speed;
+                    this.direction = 'down';
+                }
+                if (keyState[this.keys.left]) {
+                    newX -= this.speed;
+                    this.direction = 'left';
+                }
+                if (keyState[this.keys.right]) {
+                    newX += this.speed;
+                    this.direction = 'right';
+                }
+
+                if (!this.isCollidingWithWalls(newX, newY, walls)) {
+                    this.x = Math.max(0, Math.min(screenWidth - this.width, newX));
+                    this.y = Math.max(0, Math.min(screenHeight - this.height, newY));
+                }
+            }
+
+            shoot(bullets) {
+                if (this.isShooting) {
+                    bullets.push(new Bullet(this.x + this.width / 2, this.y + this.height / 2, this.direction, BLUE));
+                }
+            }
+
+            isCollidingWithWalls(x, y, walls) {
+                for (let wall of walls) {
+                    if (
+                        x < wall.x + wall.width &&
+                        x + this.width > wall.x &&
+                        y < wall.y + wall.height &&
+                        y + this.height > wall.y
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        class Monster {
+            constructor() {
+                this.x = Math.random() * (screenWidth - 20);
+                this.y = Math.random() * (screenHeight - 20);
+                this.speed = 2;
+                this.width = 20;
+                this.height = 20;
+                this.direction = 'up';
+                this.shootTimer = Math.random() * 100 + 50;
+                this.color = GREEN;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+
+            move(players, walls) {
+                let targetPlayer = players[0];
+                if (Math.sqrt((this.x - players[1].x) ** 2 + (this.y - players[1].y) ** 2) < Math.sqrt((this.x - players[0].x) ** 2 + (this.y - players[0].y) ** 2)) {
+                    targetPlayer = players[1];
+                }
+
+                let dx = targetPlayer.x - this.x;
+                let dy = targetPlayer.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance > 0) {
+                    let moveX = (dx / distance) * this.speed;
+                    let moveY = (dy / distance) * this.speed;
+
+                    let newX = this.x + moveX;
+                    let newY = this.y + moveY;
+
+                    // 检查移动方向是否有空地
+                    let canMove = true;
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        if (dx > 0) {
+                            for (let i = this.x; i < newX; i++) {
+                                if (this.isCollidingWithWalls(i, this.y, walls)) {
+                                    canMove = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            for (let i = newX; i < this.x; i++) {
+                                if (this.isCollidingWithWalls(i, this.y, walls)) {
+                                    canMove = false;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        if (dy > 0) {
+                            for (let i = this.y; i < newY; i++) {
+                                if (this.isCollidingWithWalls(this.x, i, walls)) {
+                                    canMove = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            for (let i = newY; i < this.y; i++) {
+                                if (this.isCollidingWithWalls(this.x, i, walls)) {
+                                    canMove = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (canMove &&!this.isCollidingWithWalls(newX, newY, walls)) {
+                        this.x = Math.max(0, Math.min(screenWidth - this.width, newX));
+                        this.y = Math.max(0, Math.min(screenHeight - this.height, newY));
+
+                        if (Math.abs(dx) > Math.abs(dy)) {
+                            this.direction = dx > 0 ? 'right' : 'left';
+                        } else {
+                            this.direction = dy > 0 ? 'down' : 'up';
+                        }
+                    }
+                }
+            }
+
+            shoot(bullets) {
+                this.shootTimer--;
+                if (this.shootTimer <= 0) {
+                    bullets.push(new Bullet(this.x + this.width / 2, this.y + this.height / 2, this.direction, PURPLE));
+                    this.shootTimer = Math.random() * 100 + 50;
+                }
+            }
+
+            isCollidingWithWalls(x, y, walls) {
+                for (let wall of walls) {
+                    if (
+                        x < wall.x + wall.width &&
+                        x + this.width > wall.x &&
+                        y < wall.y + wall.height &&
+                        y + this.height > wall.y
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        class Bullet {
+            constructor(x, y, direction, color) {
+                this.x = x;
+                this.y = y;
+                this.speed = 8;
+                this.width = 3;
+                this.height = 3;
+                this.direction = direction;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+
+            move() {
+                if (this.direction === 'up') {
+                    this.y -= this.speed;
+                } else if (this.direction === 'down') {
+                    this.y += this.speed;
+                } else if (this.direction === 'left') {
+                    this.x -= this.speed;
+                } else if (this.direction === 'right') {
+                    this.x += this.speed;
+                }
+            }
+
+            isOffScreen() {
+                return (
+                    this.x < 0 ||
+                    this.x > screenWidth ||
+                    this.y < 0 ||
+                    this.y > screenHeight
+                );
+            }
+
+            isCollidingWithWall(walls) {
+                for (let wall of walls) {
+                    if (
+                        this.x < wall.x + wall.width &&
+                        this.x + this.width > wall.x &&
+                        this.y < wall.y + wall.height &&
+                        this.y + this.height > wall.y
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        class Wall {
+            constructor(x, y, width, height) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+            }
+
+            draw() {
+                ctx.fillStyle = YELLOW;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
+        const player1 = new Player(100, 100, BLUE, {
+            up: 'w',
+            down: 's',
+            left: 'a',
+            right: 'd',
+            shoot:'space'
+        });
+        const player2 = new Player(1100, 700, RED, {
+            up: 'ArrowUp',
+            down: 'ArrowDown',
+            left: 'ArrowLeft',
+            right: 'ArrowRight',
+            shoot: 'Enter'
+        });
+
+        const monsters = [];
+        const bullets = [];
+        const walls = [];
+
+        // 构建连贯且曲折的墙布局
+        // 顶部横向墙
+        walls.push(new Wall(0, 50, screenWidth, 30));
+        // 底部横向墙
+        walls.push(new Wall(0, screenHeight - 80, screenWidth, 30));
+        // 左侧纵向墙
+        walls.push(new Wall(50, 0, 30, screenHeight));
+        // 右侧纵向墙
+        walls.push(new Wall(screenWidth - 80, 0, 30, screenHeight));
+
+        // 中间曲折墙
+        walls.push(new Wall(200, 100, 30, 300));
+        walls.push(new Wall(200, 400, 200, 30));
+        walls.push(new Wall(400, 100, 30, 300));
+
+        walls.push(new Wall(700, 100, 30, 300));
+        walls.push(new Wall(700, 400, 200, 30));
+        walls.push(new Wall(900, 100, 30, 300));
+
+        const keyState = {};
+        document.addEventListener('keydown', (e) => {
+            keyState[e.key] = true;
+            if (e.key === player1.keys.shoot) {
+                player1.isShooting = true;
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            keyState[e.key] = false;
+            if (e.key === player1.keys.shoot) {
+                player1.isShooting = false;
+            }
+        });
+
+        function drawHp() {
+            ctx.font = '36px Arial';
+            ctx.fillStyle = WHITE;
+            ctx.fillText(`Player1 HP: ${player1.hp}`, 10, 30);
+            ctx.fillText(`Player2 HP: ${player2.hp}`, screenWidth - 200, 30);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, screenWidth, screenHeight);
+            player1.draw();
+            player2.draw();
+            monsters.forEach(monster => monster.draw());
+            bullets.forEach(bullet => bullet.draw());
+            walls.forEach(wall => wall.draw());
+            drawHp();
+        }
+
+        function update() {
+            player1.move(keyState, walls);
+            player2.move(keyState, walls);
+            player1.shoot(bullets);
+            player2.shoot(keyState, bullets);
+
+            if (monsters.length < 10) {
+                monsters.push(new Monster());
+            }
+
+            monsters.forEach(monster => {
+                monster.move([player1, player2], walls);
+                monster.shoot(bullets);
+            });
+
+            bullets.forEach((bullet, index) => {
+                bullet.move();
+                if (bullet.isOffScreen() || bullet.isCollidingWithWall(walls)) {
+                    bullets.splice(index, 1);
+                }
+            });
+
+            bullets.forEach((bullet, bulletIndex) => {
+                if (
+                    bullet.x < player1.x + player1.width &&
+                    bullet.x + bullet.width > player1.x &&
+                    bullet.y < player1.y + player1.height &&
+                    bullet.y + bullet.height > player1.y
+                ) {
+                    player1.hp -= 20;
+                    bullets.splice(bulletIndex, 1);
+                }
+                if (
+                    bullet.x < player2.x + player2.width &&
+                    bullet.x + bullet.width > player2.x &&
+                    bullet.y < player2.y + player2.height &&
+                    bullet.y + bullet.height > player2.y
+                ) {
+                    player2.hp -= 20;
+                    bullets.splice(bulletIndex, 1);
+                }
+                monsters.forEach((monster, monsterIndex) => {
+                    if (
+                        bullet.x < monster.x + monster.width &&
+                        bullet.x + bullet.width > monster.x &&
+                        bullet.y < monster.y + monster.height &&
+                        bullet.y + bullet.height > monster.y
+                    ) {
+                        bullets.splice(bulletIndex, 1);
+                        monsters.splice(monsterIndex, 1);
+                    }
+                });
+            });
+
+            monsters.forEach(monster => {
+                if (
+                    player1.x < monster.x + monster.width &&
+                    player1.x + player1.width > monster.x &&
+                    player1.y < monster.y + monster.height &&
+                    player1.y + player1.height > monster.y
+                ) {
+                    player1.hp -= 20;
+                    monster.x = Math.random() * (screenWidth - 20);
+                    monster.y = Math.random() * (screenHeight - 20);
+                }
+                if (
+                    player2.x < monster.x + monster.width &&
+                    player2.x + player2.width > monster.x &&
+                    player2.y < monster.y + monster.height &&
+                    player2.y + player2.height > monster.y
+                ) {
+                    player2.hp -= 20;
+                    monster.x = Math.random() * (screenWidth - 20);
+                    monster.y = Math.random() * (screenHeight - 20);
+                }
+            });
+        }
+
+        function gameLoop() {
+            draw();
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+
+</html>    

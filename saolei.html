@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <title>扫雷游戏</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Inter', sans-serif;
+        }
+
+       .game-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+       .cell {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #eee;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+       .cell.revealed {
+            background-color: #ddd;
+        }
+
+       .cell.flagged {
+            color: red;
+        }
+
+       .info-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+       .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+       .button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+       .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center h-screen">
+    <div class="game-container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">扫雷游戏</h1>
+        <div class="info-container">
+            <div>第 <span id="level">1</span> 关</div>
+            <div>时间: <span id="timer">0</span> 秒</div>
+        </div>
+        <div id="board" class="grid grid-cols-10 gap-0"></div>
+        <div class="button-container">
+            <button id="restart-button" class="button">重新开始</button>
+            <button id="next-level-button" class="button">下一关</button>
+        </div>
+    </div>
+    <script>
+        let rows = 10;
+        let cols = 10;
+        let mines = 10;
+        let level = 1;
+        let gameBoard;
+        let revealedCells = 0;
+        let gameOver = false;
+        let timerInterval;
+        let elapsedSeconds = 0;
+
+        const board = document.getElementById('board');
+        const restartButton = document.getElementById('restart-button');
+        const nextLevelButton = document.getElementById('next-level-button');
+        const levelElement = document.getElementById('level');
+        const timerElement = document.getElementById('timer');
+
+        function startTimer() {
+            elapsedSeconds = 0;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                timerElement.textContent = elapsedSeconds;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function createBoard() {
+            gameBoard = Array.from({ length: rows }, () => Array(cols).fill(0));
+            let mineCount = 0;
+            while (mineCount < mines) {
+                const row = Math.floor(Math.random() * rows);
+                const col = Math.floor(Math.random() * cols);
+                if (gameBoard[row][col]!== -1) {
+                    gameBoard[row][col] = -1;
+                    mineCount++;
+                }
+            }
+
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (gameBoard[i][j]!== -1) {
+                        let count = 0;
+                        for (let x = Math.max(i - 1, 0); x <= Math.min(i + 1, rows - 1); x++) {
+                            for (let y = Math.max(j - 1, 0); y <= Math.min(j + 1, cols - 1); y++) {
+                                if (gameBoard[x][y] === -1) {
+                                    count++;
+                                }
+                            }
+                        }
+                        gameBoard[i][j] = count;
+                    }
+                }
+            }
+        }
+
+        function drawBoard() {
+            board.innerHTML = '';
+            board.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', () => revealCell(i, j));
+                    cell.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        flagCell(i, j);
+                    });
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function revealCell(row, col) {
+            if (gameOver || board.children[row * cols + col].classList.contains('revealed') || board.children[row * cols + col].classList.contains('flagged')) return;
+            if (gameBoard[row][col] === -1) {
+                gameOver = true;
+                stopTimer();
+                alert('游戏结束，你踩到地雷了！');
+                revealAllMines();
+            } else {
+                const stack = [[row, col]];
+                while (stack.length > 0) {
+                    const [r, c] = stack.pop();
+                    const index = r * cols + c;
+                    if (index < 0 || index >= board.children.length || board.children[index].classList.contains('revealed')) continue;
+                    const cell = board.children[index];
+                    cell.classList.add('revealed');
+                    revealedCells++;
+                    if (gameBoard[r][c] > 0) {
+                        cell.textContent = gameBoard[r][c];
+                    } else {
+                        for (let x = Math.max(r - 1, 0); x <= Math.min(r + 1, rows - 1); x++) {
+                            for (let y = Math.max(c - 1, 0); y <= Math.min(c + 1, cols - 1); y++) {
+                                stack.push([x, y]);
+                            }
+                        }
+                    }
+                }
+                if (revealedCells === rows * cols - mines) {
+                    gameOver = true;
+                    stopTimer();
+                    alert('恭喜你，本关通过！');
+                    if (rows < 20) {
+                        rows++;
+                        cols++;
+                        mines += 2;
+                    }
+                    level++;
+                    levelElement.textContent = level;
+                    setupNextLevel();
+                }
+            }
+        }
+
+        function flagCell(row, col) {
+            if (gameOver || board.children[row * cols + col].classList.contains('revealed')) return;
+            const cell = board.children[row * cols + col];
+            if (cell.classList.contains('flagged')) {
+                cell.classList.remove('flagged');
+                cell.textContent = '';
+            } else {
+                cell.classList.add('flagged');
+                cell.textContent = '🚩';
+            }
+        }
+
+        function revealAllMines() {
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (gameBoard[i][j] === -1) {
+                        const cell = board.children[i * cols + j];
+                        cell.classList.add('revealed');
+                        cell.textContent = '💣';
+                    }
+                }
+            }
+        }
+
+        function setupNextLevel() {
+            gameOver = false;
+            revealedCells = 0;
+            createBoard();
+            drawBoard();
+            startTimer();
+        }
+
+        restartButton.addEventListener('click', () => {
+            rows = 10;
+            cols = 10;
+            mines = 10;
+            level = 1;
+            levelElement.textContent = level;
+            gameOver = false;
+            revealedCells = 0;
+            createBoard();
+            drawBoard();
+            startTimer();
+        });
+
+        nextLevelButton.addEventListener('click', () => {
+            if (gameOver) {
+                setupNextLevel();
+            }
+        });
+
+        createBoard();
+        drawBoard();
+        startTimer();
+    </script>
+</body>
+
+</html>
+    

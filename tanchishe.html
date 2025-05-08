@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <title>贪吃蛇小游戏</title>
+  <style>
+    #game-board {
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">贪吃蛇小游戏</h1>
+  <canvas id="game-board" width="400" height="400"></canvas>
+  <div class="flex space-x-4 mt-4">
+    <button id="start-button" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">开始</button>
+    <button id="pause-button" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">暂停</button>
+    <button id="restart-button" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">重新开始</button>
+  </div>
+  <p id="score" class="text-lg font-semibold text-gray-800 mt-4">得分: 0</p>
+  <script>
+    const canvas = document.getElementById('game-board');
+    const ctx = canvas.getContext('2d');
+    const startButton = document.getElementById('start-button');
+    const pauseButton = document.getElementById('pause-button');
+    const restartButton = document.getElementById('restart-button');
+    const scoreElement = document.getElementById('score');
+
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) };
+    let direction = 'right';
+    let gameInterval;
+    let score = 0;
+    let isPaused = false;
+
+    function drawSnake() {
+      ctx.fillStyle = 'green';
+      snake.forEach(segment => {
+        ctx.fillRect(segment.x * 10, segment.y * 10, 10, 10);
+      });
+    }
+
+    function drawFood() {
+      ctx.fillStyle = 'red';
+      ctx.fillRect(food.x * 10, food.y * 10, 10, 10);
+    }
+
+    function moveSnake() {
+      const head = { ...snake[0] };
+      switch (direction) {
+        case 'right':
+          head.x++;
+          break;
+        case 'left':
+          head.x--;
+          break;
+        case 'up':
+          head.y--;
+          break;
+        case 'down':
+          head.y++;
+          break;
+      }
+      snake.unshift(head);
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        scoreElement.textContent = `得分: ${score}`;
+        food = { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) };
+      } else {
+        snake.pop();
+      }
+    }
+
+    function checkCollision() {
+      const head = snake[0];
+      if (head.x < 0 || head.x >= 40 || head.y < 0 || head.y >= 40) {
+        clearInterval(gameInterval);
+        alert('游戏结束！你的得分是: ' + score);
+      }
+      for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          clearInterval(gameInterval);
+          alert('游戏结束！你的得分是: ' + score);
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawSnake();
+      drawFood();
+    }
+
+    function gameLoop() {
+      if (!isPaused) {
+        moveSnake();
+        checkCollision();
+        draw();
+      }
+    }
+
+    startButton.addEventListener('click', () => {
+      if (!gameInterval) {
+        gameInterval = setInterval(gameLoop, 100);
+      }
+    });
+
+    pauseButton.addEventListener('click', () => {
+      isPaused = !isPaused;
+      pauseButton.textContent = isPaused ? '继续' : '暂停';
+    });
+
+    restartButton.addEventListener('click', () => {
+      clearInterval(gameInterval);
+      snake = [{ x: 10, y: 10 }];
+      food = { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) };
+      direction = 'right';
+      score = 0;
+      scoreElement.textContent = `得分: ${score}`;
+      isPaused = false;
+      pauseButton.textContent = '暂停';
+      gameInterval = setInterval(gameLoop, 100);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'ArrowRight':
+          if (direction !== 'left') direction = 'right';
+          break;
+        case 'ArrowLeft':
+          if (direction !== 'right') direction = 'left';
+          break;
+        case 'ArrowUp':
+          if (direction !== 'down') direction = 'up';
+          break;
+        case 'ArrowDown':
+          if (direction !== 'up') direction = 'down';
+          break;
+      }
+    });
+  </script>
+</body>
+
+</html>
+    

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恐龙快跑小游戏</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #game-container {
+            width: 600px;
+            height: 150px;
+            border-bottom: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #dinosaur {
+            width: 25px;
+            height: 25px;
+            background-color: #000;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+        }
+
+        #obstacle {
+            width: 10px;
+            height: 20px;
+            background-color: #f00;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        @keyframes jump {
+            0% {
+                bottom: 0;
+            }
+
+            50% {
+                bottom: 60px;
+            }
+
+            100% {
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="dinosaur"></div>
+        <div id="obstacle"></div>
+    </div>
+    <script>
+        const dinosaur = document.getElementById('dinosaur');
+        const obstacle = document.getElementById('obstacle');
+        let isJumping = false;
+        let speed = 2;
+        let intervalId;
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === ' ' && !isJumping) {
+                jump();
+            }
+        });
+
+        function jump() {
+            isJumping = true;
+            dinosaur.style.animation = 'jump 0.5s linear';
+
+            setTimeout(() => {
+                dinosaur.style.animation = '';
+                isJumping = false;
+            }, 500);
+        }
+
+        function moveObstacle() {
+            let obstacleLeft = parseInt(window.getComputedStyle(obstacle).left);
+            obstacleLeft -= speed;
+
+            if (obstacleLeft < -10) {
+                obstacleLeft = 600;
+                speed += 0.1;
+            }
+
+            obstacle.style.left = obstacleLeft + 'px';
+
+            const dinosaurLeft = parseInt(window.getComputedStyle(dinosaur).left);
+            const dinosaurBottom = parseInt(window.getComputedStyle(dinosaur).bottom);
+            const obstacleBottom = parseInt(window.getComputedStyle(obstacle).bottom);
+
+            if (
+                obstacleLeft < dinosaurLeft + 25 &&
+                obstacleLeft + 10 > dinosaurLeft &&
+                obstacleBottom < dinosaurBottom + 25 &&
+                obstacleBottom + 20 > dinosaurBottom
+            ) {
+                clearInterval(intervalId);
+                alert('游戏结束！');
+            }
+        }
+
+        intervalId = setInterval(moveObstacle, 10);
+    </script>
+</body>
+
+</html>    

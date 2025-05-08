@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付订单</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        /* 支付容器样式 */
+        .payment-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* 标题样式 */
+        .payment-container h2 {
+            font-size: 24px;
+            color: #111;
+            margin-bottom: 16px;
+        }
+
+        /* 提示文本样式 */
+        .payment-container p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 金额按钮容器样式 */
+        .amount-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        /* 金额按钮基础样式 */
+        .amount-button {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            color: rgb(69, 76, 69);
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* 金额按钮选中样式 */
+        .amount-button.selected {
+            background-color: #1d7b1d;
+            transform: scale(1.02);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 支付按钮样式 */
+        .pay-button {
+            padding: 12px 24px;
+            background-color: #409eff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 支付按钮悬停样式 */
+        .pay-button:hover {
+            background-color: #66b1ff;
+        }
+
+        /* 图片展示区域样式 */
+        .payment-image {
+            margin-bottom: 24px;
+        }
+
+        .payment-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="payment-container">
+        <h2>欢迎老板打赏</h2>
+        <p>请选择打赏金额:</p>
+        <div class="payment-image">
+            <!-- 这里可以替换为实际的收付款图片链接 -->
+            <img src="纹身文件夹/纹身产品图片/收款码.png" alt="收付款图片">
+        </div>
+        <div class="amount-buttons">
+            <button class="amount-button" data-amount="1.00">¥ 1.00</button>
+            <button class="amount-button" data-amount="5.00">¥ 5.00</button>
+            <button class="amount-button" data-amount="10.00">¥ 10.00</button>
+            <button class="amount-button" data-amount="20.00">¥ 20.00</button>
+            <button class="amount-button" data-amount="50.00">¥ 50.00</button>
+            <button class="amount-button" data-amount="100.00">¥ 100.00</button>
+        </div>
+        <button class="pay-button"><i class="fa-brands fa-alipay"></i> 使用支付宝支付</button>
+    </div>
+    <script>
+        const amountButtons = document.querySelectorAll('.amount-button');
+        let selectedButton;
+
+        amountButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (selectedButton) {
+                    selectedButton.classList.remove('selected');
+                }
+                this.classList.add('selected');
+                selectedButton = this;
+            });
+        });
+    </script>
+</body>
+
+</html>
+    

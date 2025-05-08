@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wormhole - 数字跨境，智达全球</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .bg-hero {
+            background-image: url('https://picsum.photos/1920/1080');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(228, 215, 215, 0.5);
+            z-index: -1;
+        }
+
+        /* 企业发展史样式 */
+       .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+       .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #f3f4f6;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+       .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+       .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            border: 4px solid #FF9F55;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+       .left {
+            left: 0;
+        }
+
+       .right {
+            left: 50%;
+        }
+
+       .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+       .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+       .left::after {
+            right: -17px;
+        }
+
+       .right::after {
+            left: -17px;
+        }
+
+       .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+        }
+
+        /* 导航栏链接样式修改 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1f2937;
+            text-white;
+            z-index: 100;
+        }
+
+        nav ul li a {
+            position: relative;
+            display: inline-block;
+            transition: transform 1.5s ease;
+        }
+
+        nav ul li a:hover {
+            transform: rotateX(360deg);
+        }
+
+        /* 图片轮播样式 */
+       .slideshow-container {
+            max-width: 400px;
+            height: 300px;
+            position: relative;
+            margin: auto;
+            overflow: hidden;
+        }
+
+       .mySlides {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+            display: none;
+        }
+
+       .mySlides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+       .prev,
+       .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+       .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+       .prev:hover,
+       .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="game_center.html" class="text-2xl font-bold">Wormhole</a>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="hover:text-gray-300">首页</a></li>
+                <li><a href="wormhole_tattoo.html" class="hover:text-gray-300">纹身专区</a></li>
+                <li><a href="wormhole_pet.html" class="hover:text-gray-300">宠物专区</a></li>
+                <li><a href="wormhole_about_us.html" class="hover:text-gray-300">关于我们</a></li>
+                <li><a href="wormhole_call_me.html" class="hover:text-gray-300">联系我们</a></li>
+                <li><a href="zhifubao_pay.html" class="hover:text-gray-300">打赏界面</a></li>
+                <li><a href="xuyuan.html" class="hover:text-gray-300">许愿界面</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 首页横幅 -->
+    <section class="bg-hero text-white text-center py-20">
+        <div class="container mx-auto px-4">
+            <h1 class="text-5xl font-bold mb-4">Wormhole - 数字跨境，智达全球</h1>
+            <p class="text-xl mb-8">探索纹身与宠物世界的无限可能，跨越数字边界，通达全球</p>
+            <a href="#" class="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600">立即探索</a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">关于我们</h2>
+        <h1 class="text-3xl font-bold text-center mb-4">17年深耕，卓越成就不凡，品质始终如一！</h1>
+        <p class="text-gray-700 text-center">自2008年起，我们便踏上征程，始终专注于纹身与宠物两大领域。凭借深厚的行业积累与敏锐的市场洞察，持续为客户提供优质服务。</p>
+        <p class="text-gray-700 text-center">在纹身方面，我们汇聚业内专业人才，以精湛技艺和创新设计，打造个性化纹身方案，满足多样审美需求。于宠物领域，我们整合优质资源，涵盖宠物用品供应、专业护理及美容等服务，用心呵护每一位萌宠伙伴。</p>
+        <p class="text-gray-700 text-center">经过十五载砥砺前行，我们不断拓展业务版图，凭借专业与专注，赢得众多客户信赖，在行业中稳步前行。</p>
+    </section>
+
+    <!-- 服务介绍 -->
+    <section class="bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">我们的服务</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <div class="slideshow-container">
+                        <div class="mySlides tattoo-slide">
+                            <img src="纹身文件夹/纹身-1.png" alt="纹身图片1">
+                        </div>
+                        <div class="mySlides tattoo-slide">
+                            <img src="纹身文件夹/纹身-2.png" alt="纹身图片2">
+                        </div>
+                        <div class="mySlides tattoo-slide">
+                            <img src="纹身文件夹/纹身-3.png" alt="纹身图片3">
+                        </div>
+                        <a class="prev" onclick="plusSlidesTattoo(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlidesTattoo(1)">&#10095;</a>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">纹身专区</h3>
+                    <p class="text-gray-700">我们拥有专业的纹身师团队，提供个性化的纹身设计和高品质的纹身服务。无论是传统图案还是现代创意，我们都能满足您的需求。</p>
+                </div>
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <div class="slideshow-container">
+                        <div class="mySlides pet-slide">
+                            <img src="https://picsum.photos/400/300?random=1" alt="宠物图片1">
+                        </div>
+                        <div class="mySlides pet-slide">
+                            <img src="https://picsum.photos/400/300?random=2" alt="宠物图片2">
+                        </div>
+                        <div class="mySlides pet-slide">
+                            <img src="https://picsum.photos/400/300?random=3" alt="宠物图片3">
+                        </div>
+                        <a class="prev" onclick="plusSlidesPet(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlidesPet(1)">&#10095;</a>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">宠物专区</h3>
+                    <p class="text-gray-700">在宠物专区，我们提供宠物用品、宠物护理和宠物美容等一站式服务。关爱您的宠物，从这里开始。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 企业发展史 -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">企业发展史</h2>
+        <div class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h3>2020 年</h3>
+                    <p>Wormhole 正式成立，怀揣着将纹身艺术与宠物关爱融合的梦想启航。</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h3>2021 年</h3>
+                    <p>成功组建专业的纹身师团队和宠物护理团队，为提供优质服务奠定基础。</p>
+                </div>
+            </div>
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h3>2022 年</h3>
+                    <p>推出线上纹身设计预约服务和宠物用品商城，开启数字跨境服务的新篇章。</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h3>2023 年</h3>
+                    <p>服务覆盖全球多个国家和地区，获得了众多客户的认可和好评。</p>
+                </div>
+            </div>
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h3>2024 年</h3>
+                    <p>不断创新服务模式，推出更多个性化的纹身和宠物服务套餐。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- 客户见证 -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">客户见证</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-md shadow-md flex items-start">
+                <img src="https://example.com/user1.jpg" alt="用户头像1" class="w-12 h-12 rounded-full mr-4">
+                <div>
+                    <p class="text-gray-700">“一直想拥有一个独特的纹身，Wormhole 简直是我的救星！从沟通想法开始，纹身师就展现出了超强的专业度，对风格的把握、图案细节的雕琢都无可挑剔。拿到设计稿时，我就知道找对了地方。成品更是惊艳，完全超出预期，质感和创意都拉满！现在走在街上，这个纹身就是我的个性名片，好多人都来问在哪做的。真心推荐给每一个追求独特纹身艺术的朋友！”</p>
+                    <p class="text-gray-500 text-right">- <span class="font-bold">用户A</span>，纹身爱好者</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-md shadow-md flex items-start">
+                <img src="https://example.com/user2.jpg" alt="用户头像2" class="w-12 h-12 rounded-full mr-4">
+                <div>
+                    <p class="text-gray-700">“家里养了毛孩子后，挑选宠物用品就成了我的日常大事。自从发现了 Wormhole 的宠物专区（geoorood 品牌），真的太省心了！无论是吃的、用的还是玩的，种类超全，而且质量杠杠的。我家宝贝特别喜欢他家的宠物窝，一躺进去就不愿出来。上次咨询产品问题，工作人员特别热情，讲解得细致又专业，还根据我家宝贝的情况给了很多实用建议。现在我家毛孩子的用品基本都从这买，以后也认定这儿啦！”</p>
+                    <p class="text-gray-500 text-right">- <span class="font-bold">用户B</span>，宠物主人</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+
+    <!-- 页脚 -->
+    <script>
+        // 纹身专区
+        let slideIndexTattoo = 1;
+        showSlidesTattoo(slideIndexTattoo);
+        let autoSlideIntervalTattoo = setInterval(() => {
+            plusSlidesTattoo(1);
+        }, 5000);
+
+        function plusSlidesTattoo(n) {
+            clearInterval(autoSlideIntervalTattoo);
+            const slides = document.querySelectorAll('.tattoo-slide');
+            const currentSlide = slides[slideIndexTattoo - 1];
+            slideIndexTattoo += n;
+            if (slideIndexTattoo > slides.length) {
+                slideIndexTattoo = 1;
+            } else if (slideIndexTattoo < 1) {
+                slideIndexTattoo = slides.length;
+            }
+            const nextSlide = slides[slideIndexTattoo - 1];
+            if (n > 0) {
+                currentSlide.style.transform = 'translateX(-100%)';
+                nextSlide.style.transform = 'translateX(100%)';
+            } else {
+                currentSlide.style.transform = 'translateX(100%)';
+                nextSlide.style.transform = 'translateX(-100%)';
+            }
+            currentSlide.style.opacity = 0;
+            nextSlide.style.display = 'block';
+            nextSlide.style.opacity = 1;
+            setTimeout(() => {
+                currentSlide.style.display = 'none';
+                currentSlide.style.transform = 'translateX(0)';
+                nextSlide.style.transform = 'translateX(0)';
+            }, 600);
+            autoSlideIntervalTattoo = setInterval(() => {
+                plusSlidesTattoo(1);
+            }, 5000);
+        }
+
+        function showSlidesTattoo(n) {
+            const slides = document.querySelectorAll('.tattoo-slide');
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+                slides[i].style.transform = 'translateX(0)';
+                slides[i].style.opacity = 0;
+            }
+            slides[n - 1].style.display = "block";
+            slides[n - 1].style.opacity = 1;
+        }
+
+        // 宠物专区
+        let slideIndexPet = 1;
+        showSlidesPet(slideIndexPet);
+        let autoSlideIntervalPet = setInterval(() => {
+            plusSlidesPet(1);
+        }, 5000);
+
+        function plusSlidesPet(n) {
+            clearInterval(autoSlideIntervalPet);
+            const slides = document.querySelectorAll('.pet-slide');
+            const currentSlide = slides[slideIndexPet - 1];
+            slideIndexPet += n;
+            if (slideIndexPet > slides.length) {
+                slideIndexPet = 1;
+            } else if (slideIndexPet < 1) {
+                slideIndexPet = slides.length;
+            }
+            const nextSlide = slides[slideIndexPet - 1];
+            if (n > 0) {
+                currentSlide.style.transform = 'translateX(-100%)';
+                nextSlide.style.transform = 'translateX(100%)';
+            } else {
+                currentSlide.style.transform = 'translateX(100%)';
+                nextSlide.style.transform = 'translateX(-100%)';
+            }
+            currentSlide.style.opacity = 0;
+            nextSlide.style.display = 'block';
+            nextSlide.style.opacity = 1;
+            setTimeout(() => {
+                currentSlide.style.display = 'none';
+                currentSlide.style.transform = 'translateX(0)';
+                nextSlide.style.transform = 'translateX(0)';
+            }, 600);
+            autoSlideIntervalPet = setInterval(() => {
+                plusSlidesPet(1);
+            }, 5000);
+        }
+
+        function showSlidesPet(n) {
+            const slides = document.querySelectorAll('.pet-slide');
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+                slides[i].style.transform = 'translateX(0)';
+                slides[i].style.opacity = 0;
+            }
+            slides[n - 1].style.display = "block";
+            slides[n - 1].style.opacity = 1;
+        }
+    </script>
+    <div class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-4 flex justify-center items-center">
+            <div class="flex flex-col items-center mr-8">
+                <h3 class="text-xl font-bold mb-2 text-white">Wormhole</h3>
+            </div>
+            <div class="flex flex-col items-center mr-8">
+                <h3 class="text-xl font-bold mb-2 text-gray-300">快速导航</h3>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="text-gray-300 hover:text-white">首页</a></li>
+                    <li><a href="wormhole_tattoo.html" class="text-gray-300 hover:text-white">纹身专区</a></li>
+                    <li><a href="wormhole_pet.html" class="text-gray-300 hover:text-white">宠物专区</a></li>
+                    <li><a href="wormhole_about_us.html" class="text-gray-300 hover:text-white">关于我们</a></li>
+                    <li><a href="wormhole_call_me.html" class="text-gray-300 hover:text-white">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="flex flex-col items-center">
+                <h3 class="text-xl font-bold mb-2 text-white">联系方式：XXX-XXXXXXXX</h3>
+                <p class="text-gray-300 mb-2">浙江一念三千企业管理有限公司</p>
+                <p class="text-gray-300">地址：浙江省杭州市临平区滨耀城11幢3层</p>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 Wormhole. 保留所有权利。</p>
+    </footer>
+</body>
+
+</html>
+    

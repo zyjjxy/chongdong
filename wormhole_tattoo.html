@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wormhole - 数字跨境，智达全球</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+           .bg-hero {
+                background-image: url('https://picsum.photos/1920/1080');
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                z-index: 1;
+            }
+
+           .bg-hero::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(228, 215, 215, 0.5);
+                z-index: -1;
+            }
+
+            /* 企业发展史样式 */
+           .timeline {
+                position: relative;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+           .timeline::after {
+                content: '';
+                position: absolute;
+                width: 6px;
+                background-color: #f3f4f6;
+                top: 0;
+                bottom: 0;
+                left: 50%;
+                margin-left: -3px;
+            }
+
+           .timeline-container {
+                padding: 10px 40px;
+                position: relative;
+                background-color: inherit;
+                width: 50%;
+                box-sizing: border-box;
+            }
+
+           .timeline-container::after {
+                content: '';
+                position: absolute;
+                width: 25px;
+                height: 25px;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: white;
+                border: 4px solid #FF9F55;
+                border-radius: 50%;
+                z-index: 1;
+            }
+
+           .left {
+                left: 0;
+            }
+
+           .right {
+                left: 50%;
+            }
+
+           .left::before {
+                content: " ";
+                height: 0;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                z-index: 1;
+                right: 30px;
+                border: medium solid white;
+                border-width: 10px 0 10px 10px;
+                border-color: transparent transparent transparent white;
+            }
+
+           .right::before {
+                content: " ";
+                height: 0;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                z-index: 1;
+                left: 30px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+
+           .left::after {
+                right: -17px;
+            }
+
+           .right::after {
+                left: -17px;
+            }
+
+           .timeline-content {
+                padding: 20px 30px;
+                background-color: white;
+                position: relative;
+                border-radius: 6px;
+            }
+
+            /* 导航栏链接样式修改 */
+            nav ul li a {
+                position: relative;
+                display: inline-block;
+                transition: transform 1.5s ease;
+            }
+
+            nav ul li a:hover {
+                transform: rotateX(360deg);
+            }
+
+            /* 新增样式使图片和文字居中 */
+           .product-item,
+           .service-item,
+           .customer-review {
+                text-align: center;
+            }
+
+           .product-item img,
+           .service-item .icon-container,
+           .customer-review .icon-container {
+                margin: 0 auto;
+            }
+
+            /* 优化产品、服务和评价卡片样式 */
+           .product-item,
+           .service-item,
+           .customer-review {
+                background-color: #fff;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                transition: transform 0.3s ease;
+            }
+
+           .product-item:hover,
+           .service-item:hover,
+           .customer-review:hover {
+                transform: translateY(-5px);
+            }
+
+            /* 调整按钮样式 */
+            a.bg-blue-500 {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+
+            a.bg-blue-500:hover {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+
+            /* 新增样式，为有超链接的文字添加浅色背景框 */
+           .product-item a,
+           .service-item a,
+           .customer-review a {
+                display: inline-block;
+                padding: 2px 5px;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="bg-gray-900 text-white">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold">Wormhole</a>
+                <ul class="flex space-x-4">
+                    <li><a href="wormhole.html" class="hover:text-gray-300">首页</a></li>
+                    <li><a href="#" class="hover:text-gray-300">纹身专区</a></li>
+                    <li><a href="wormhole_pet.html" class="hover:text-gray-300">宠物专区</a></li>
+                    <li><a href="wormhole_about_us.html" class="hover:text-gray-300">关于我们</a></li>
+                    <li><a href="wormhole_call_me.html" class="hover:text-gray-300">联系我们</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="bg-hero text-center py-24">
+            <div class="container mx-auto">
+                <h1 class="text-5xl font-bold mb-4 text-gray-800">数字跨境，智达全球</h1>
+                <p class="text-xl mb-8 text-gray-700">开启全新的跨境体验，让您的业务无国界。</p>
+                <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-full inline-block">了解更多</a>
+            </div>
+        </section>
+        <section class="bg-gray-100">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">特色服务</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-item p-6">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-globe text-3xl text-blue-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-800">全球覆盖</h3>
+                        <p class="text-gray-600">我们的服务覆盖全球多个国家和地区，为您提供全方位的跨境支持。</p>
+                    </div>
+                    <div class="service-item p-6">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-shield text-3xl text-blue-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-800">安全可靠</h3>
+                        <p class="text-gray-600">采用先进的技术和严格的安全措施，确保您的数据和交易安全。</p>
+                    </div>
+                    <div class="service-item p-6">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-headset text-3xl text-blue-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-800">专业客服</h3>
+                        <p class="text-gray-600">我们的客服团队随时为您提供专业的咨询和支持。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">产品展示</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/兰卡-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A35G91UE3ST1XU&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">兰卡</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/塔坨-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A9MPUEJ45V15H&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">塔拓</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/柏冬-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A1KP9OHQEVCMDI&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">珀冬</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/虫洞-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A3ARNS0SDD1A98&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">虫洞</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/凡竹-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A2OEE5F2TW9NOJ&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">芃竹</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                    <div class="product-item p-6">
+                        <img src="纹身文件夹/纹身产品图片/虫洞-1.jpg" alt="产品1" class="mb-4 rounded-md">
+                        <a href="https://www.amazon.com/s?me=A2J7MWHPCYOIN4&marketplaceID=ATVPDKIKX0DER">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-800">沪星</h3>
+                        </a>
+                        <p class="text-gray-600">这是一款具有创新性的跨境产品，为您带来全新的体验。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-gray-100">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">客户评价</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded shadow customer-review">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-comment text-3xl text-blue-500"></i>
+                        </div>
+                        <p class="mb-4 text-gray-600">“Wormhole的服务非常出色，帮助我们顺利开展了跨境业务，感谢！”</p>
+                        <p class="text-gray-600">- 客户A</p>
+                    </div>
+                    <div class="bg-white p-6 rounded shadow customer-review">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-comment text-3xl text-blue-500"></i>
+                        </div>
+                        <p class="mb-4 text-gray-600">“使用Wormhole后，我们的跨境交易变得更加轻松和高效。”</p>
+                        <p class="text-gray-600">- 客户B</p>
+                    </div>
+                    <div class="bg-white p-6 rounded shadow customer-review">
+                        <div class="icon-container mb-4">
+                            <i class="fa-solid fa-comment text-3xl text-blue-500"></i>
+                        </div>
+                        <p class="mb-4 text-gray-600">“Wormhole的团队专业且负责，值得信赖。”</p>
+                        <p class="text-gray-600">- 客户C</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="bg-gray-900 text-white py-6">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2025 Wormhole. 保留所有权利。</p>
+            </div>
+        </footer>
+    </body>
+</html>

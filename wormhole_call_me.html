@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wormhole - 联系我们</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .bg-hero {
+            background-image: url('https://picsum.photos/1920/1080');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(228, 215, 215, 0.5);
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">Wormhole</a>
+            <ul class="flex space-x-4">
+                <li><a href="wormhole.html" class="hover:text-gray-300">首页</a></li>
+                <li><a href="wormhole_home.html" class="hover:text-gray-300">纹身服务</a></li>
+                <li><a href="wormhole_pet.html" class="hover:text-gray-300">宠物专区</a></li>
+                <li><a href="wormhole_about_us.html" class="hover:text-gray-300">关于我们</a></li>
+                <li><a href="#" class="hover:text-gray-300">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 联系我们横幅 -->
+    <section class="bg-hero text-white text-center py-20">
+        <div class="container mx-auto px-4">
+            <h1 class="text-5xl font-bold mb-4">联系我们 - 期待与您沟通</h1>
+            <p class="text-xl mb-8">若您有任何问题、建议或合作意向，欢迎随时联系我们</p>
+        </div>
+    </section>
+
+    <!-- 联系信息 -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">联系信息</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <i class="fa-solid fa-map-location-dot text-3xl text-gray-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">地址</h3>
+                <p class="text-gray-700">310000，滨耀城11幢3楼，临平区, 杭州市, 浙江省</p>
+            </div>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <i class="fa-solid fa-phone text-3xl text-gray-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">电话</h3>
+                <p class="text-gray-700">+1 (123) 456 - 7890</p>
+            </div>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <i class="fa-solid fa-envelope text-3xl text-gray-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">邮箱</h3>
+                <p class="text-gray-700">info@wormholepets.com</p>
+            </div>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <i class="fa-solid fa-clock text-3xl text-gray-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">营业时间</h3>
+                <p class="text-gray-700">周一至周六: 8:30 AM - 6:00 PM<br>周日: 休息</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系表单 -->
+    <section class="bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">在线留言</h2>
+            <form action="/submit" method="post" class="max-w-lg mx-auto">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 font-bold mb-2">姓名</label>
+                    <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="请输入您的姓名">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-bold mb-2">邮箱</label>
+                    <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="请输入您的邮箱">
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700 font-bold mb-2">留言内容</label>
+                    <textarea id="message" name="message" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="请输入您的留言"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">提交留言</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 Wormhole. 保留所有权利。</p>
+    </footer>
+</body>
+
+</html>
+   
+    
